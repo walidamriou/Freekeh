@@ -22,6 +22,8 @@
 #endif
 
 #define freekeh_serial_speed 115200
+#define freekeh_gateway_check_time 8000        // Every 8 s check (without the time of waiting the thing to response)
+#define freekeh_gateway_wait_thing_data_max 50 // Wait the thing to response 5 s
 
 // To know with thing will the gateway connect
 uint8_t freekeh_things_index=1;
@@ -33,7 +35,6 @@ uint8_t freekeh_gateway_send_again = 1;
 uint8_t freekeh_gateway_send_again_index = 1;
 
 uint8_t freekeh_gateway_wait_thing_data = 0;
-#define freekeh_gateway_wait_thing_data_max 100
 uint8_t freekeh_gateway_flag_received_data=0;
 uint8_t freekeh_gateway_received_data = 0; 
 
@@ -220,7 +221,7 @@ void loop() {
   freekeh_gateway_wait_thing_data=0;
   #endif
 
-  delay(10000);
+  delay(freekeh_gateway_check_time);
 }
 
 
