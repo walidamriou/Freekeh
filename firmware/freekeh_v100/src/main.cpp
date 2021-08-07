@@ -78,7 +78,7 @@ void freekeh_send_callback(const uint8_t *mac_addr, esp_now_send_status_t status
 }
 
 // Callback when new data is received
-void freekheh_received_data_callback(const uint8_t * mac, const uint8_t *received_data_from_espnow, int len) {
+void freekheh_received_callback(const uint8_t * mac, const uint8_t *received_data_from_espnow, int len) {
   #ifdef freekeh_gateway
   memcpy(&freekeh_gateway_received_data, received_data_from_espnow, sizeof(freekeh_gateway_received_data));
   // set the flag to indicate that data has been received
@@ -115,8 +115,10 @@ void setup() {
 
   // Register sending callback function
   esp_now_register_send_cb(freekeh_send_callback);
+
+  // register peers for gateway
   #ifdef freekeh_gateway
-  for(int i;i<freekeh_things_number;i++){
+  for(int i=0;i<freekeh_things_number;i++){
   // In order to send data to another boards/board, system pair it as a peer, so need to register a peer
   // create a peerinfo object 
   esp_now_peer_info_t peerInfo;
@@ -138,12 +140,13 @@ void setup() {
   }
   #endif
 
+  // register peers for thing
   #ifdef freekeh_thing
   // In order to send data to another boards/board, system pair it as a peer, so need to register a peer
   // create a peerinfo object 
   esp_now_peer_info_t peerInfo;
   // Copy a mac address of the peer from broadcastAddress to peerInfo.peer_addr
-  memcpy(peerInfo.peer_addr, freekeh_gateway_mac_address, 6); 
+  memcpy(peerInfo.peer_addr, "freekeh_gateway_mac_address", 6); 
   // Set Wi-Fi channel that peer uses to send/receive ESPNOW data
   // The range of the channel of paired devices is from 0 to 14.
   // If the channel is set to 0, data will be sent on the current channel. 
@@ -160,7 +163,7 @@ void setup() {
   #endif
 
   // Register for a callback function that will be called when data is received
-  esp_now_register_recv_cb(freekheh_received_data_callback);
+  esp_now_register_recv_cb(freekheh_received_callback);
 }
 
 void loop() {
