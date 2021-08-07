@@ -39,4 +39,7 @@ uint8_t freekeh_gateway_mac_address[] = {0x50, 0x02, 0x91, 0x89, 0x3D, 0xDC}; //
 uint8_t freekeh_thing_1_mac_address[] = {0xDC, 0x4F, 0x22, 0x0A, 0x41, 0x13}; // Freekeh Thing based ESP32 dev board
 uint8_t freekeh_thing_2_mac_address[] = {0x10, 0x52, 0x1C, 0x67, 0x79, 0x40}; // Freekeh Thing based ESP8266 E12n dev board
 
+/* Commands */
+#define freekeh_thing_get_data 100
+
 #endif
