@@ -4,6 +4,14 @@ Freekeh is an Embedded IoT Framework for Wireless Sensors monitoring
 ### About 
 Freekeh powered multi sensors system by a secure wireless solution. The system consists  
 
+```                                  
+                                            ___________           
+                Thing <------------------> |           | <------------------> Thing
+                Thing <------------------> | Gateway   | <------------------> Thing                 
+                Thing <------------------> |___________| <------------------> Thing 
+                                                            
+```
+
 ### Freekeh release notes
 * v1.0.0
 - Support ESP32 and ESP8266 boards as a gateway.
