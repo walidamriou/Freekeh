@@ -23,6 +23,7 @@
 
 #define freekeh_serial_speed 115200
 #define freekeh_gateway_check_time 8000        // Every 8 s check (without the time of waiting the thing to response)
+#define freekeh_thing_check_time 200        // Every 8 s check (without the time of waiting the thing to response)
 #define freekeh_gateway_wait_thing_data_max 50 // Wait the thing to response 5 s
 
 // To know with thing will the gateway connect
@@ -52,11 +53,14 @@ uint8_t Send_Data;
 
 // return the things MAC address depending on a index
 uint8_t * freekehiot_gateway_thing_mac_address(uint8_t things_index){
-  if(things_index==1){
-    return freekeh_thing_1_mac_address;
+  uint8_t * address_return;
+  if(things_index==0){
+    address_return = freekeh_thing_1_mac_address;
+    return address_return;
   }
-  else if(things_index==2){
-    return freekeh_thing_2_mac_address;
+  else if(things_index==1){
+    address_return = freekeh_thing_2_mac_address;
+    return address_return;
   }
   return 0;
 }
@@ -98,10 +102,22 @@ void freekheh_received_callback(const uint8_t * mac, const uint8_t *received_dat
 void setup() {
   // Init Serial Monitor
   Serial.begin(freekeh_serial_speed);
-
+  
   #ifdef freekeh_esp32_pico_m5stickc
   // this to init power manager, serial, and LCD of M5STickc
   M5.begin();
+  #endif
+  
+  #ifdef freekeh_gateway
+  Serial.println("Start freekeh gateway.");
+  #endif
+
+  #ifdef freekeh_thing
+  Serial.println("Start freekeh thing.");
+  #endif
+
+  #ifdef freekeh_thing
+  Serial.println("Start freekeh thing config.");
   #endif
 
   // Set the device as a Wi-Fi Station
@@ -116,7 +132,6 @@ void setup() {
 
   // Register sending callback function
   esp_now_register_send_cb(freekeh_send_callback);
-
   // register peers for gateway
   #ifdef freekeh_gateway
   for(int i=0;i<freekeh_things_number;i++){
@@ -125,6 +140,7 @@ void setup() {
   esp_now_peer_info_t peerInfo;
   // Copy a mac address of the peer from broadcastAddress to peerInfo.peer_addr
   memcpy(peerInfo.peer_addr, freekehiot_gateway_thing_mac_address(i), 6); 
+  Serial.println("Test..................................");
   // Set Wi-Fi channel that peer uses to send/receive ESPNOW data
   // The range of the channel of paired devices is from 0 to 14.
   // If the channel is set to 0, data will be sent on the current channel. 
@@ -147,7 +163,7 @@ void setup() {
   // create a peerinfo object 
   esp_now_peer_info_t peerInfo;
   // Copy a mac address of the peer from broadcastAddress to peerInfo.peer_addr
-  memcpy(peerInfo.peer_addr, "freekeh_gateway_mac_address", 6); 
+  memcpy(peerInfo.peer_addr, freekeh_gateway_mac_address, 6); 
   // Set Wi-Fi channel that peer uses to send/receive ESPNOW data
   // The range of the channel of paired devices is from 0 to 14.
   // If the channel is set to 0, data will be sent on the current channel. 
@@ -165,6 +181,11 @@ void setup() {
 
   // Register for a callback function that will be called when data is received
   esp_now_register_recv_cb(freekheh_received_callback);
+
+  #ifdef freekeh_thing
+  Serial.println("End freekeh thing config.");
+  #endif
+
 }
 
 void loop() {
@@ -229,8 +250,25 @@ void loop() {
   if(freekeh_thing_flag_received_data==1){
     freekeh_thing_flag_received_data=0;
     // send the data to gateway
-    
+    //if(freekeh_gateway_received_data==freekeh_thing_get_data){
+      freekeh_gateway_received_data=0;
+      
+      Send_Data=222; // Example Data send from Thing
+      esp_err_t result = esp_now_send(freekeh_gateway_mac_address, (uint8_t *) &Send_Data, sizeof(Send_Data));
+    if (result == ESP_OK) {
+      Serial.println("Sent Data to gateway with success.");
+    }
+    else {
+      // There are many reasons of fail: the destination device doesn’t exist; 
+      //                                 the channels of the devices are not the same;
+      //                                 the action frame is lost when transmitting on the air, etc.
+      Serial.println("Error when sent.");
+    }
+  
+    //}
+
   }
+  delay(freekeh_thing_check_time);
   #endif
 }
 
