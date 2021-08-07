@@ -175,6 +175,7 @@ void loop() {
   freekeh_thing_adderss=freekehiot_gateway_thing_mac_address(freekeh_things_index);
   // Go out from the while when the gateway send correctly to the thing or send twice 
   while(freekeh_gateway_send_again==1){
+    Send_Data=freekeh_thing_get_data;
     esp_err_t result = esp_now_send(freekeh_thing_adderss, (uint8_t *) &Send_Data, sizeof(Send_Data));
     if (result == ESP_OK) {
       Serial.println("Sent with success, waiting the Thing to send the data.");
@@ -219,9 +220,18 @@ void loop() {
     Serial.println("The time is out and the thing did not respone.");
   }
   freekeh_gateway_wait_thing_data=0;
-  #endif
 
   delay(freekeh_gateway_check_time);
+  #endif
+
+  // Send data from thing to gateway
+  #ifdef freekeh_thing
+  if(freekeh_thing_flag_received_data==1){
+    freekeh_thing_flag_received_data=0;
+    // send the data to gateway
+    
+  }
+  #endif
 }
 
 
