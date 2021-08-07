@@ -7,7 +7,7 @@ Freekeh powered multi sensors system by a secure wireless solution. The system c
 ```                                  
                                             ___________           
                 Thing <------------------> |           | <------------------> Thing
-                Thing <------------------> | Gateway   | <------------------> Thing                 
+                Thing <------------------> |  Gateway  | <------------------> Thing                 
                 Thing <------------------> |___________| <------------------> Thing 
                                                             
 ```
