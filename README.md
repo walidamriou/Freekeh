@@ -22,6 +22,7 @@ Freekeh powered multi sensors system by a secure wireless solution. The system c
    - One firmware structure for the gateway and things.
    - Data packet is limited to 250 bytes.
    - No power consumption optimization yet, not intended to battery sensors.
+   - The Gateway manages the network, the things cannot send without an order from the gateway, the things cannot start an order, based on Controller/Peripheral architecture. 
 
 ### Copyright CC 2020 Walid Amriou
 
