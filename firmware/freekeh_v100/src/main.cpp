@@ -49,7 +49,7 @@ uint8_t flag_received_data=0;
 
 uint8_t Send_Data;
 
-// function return the things MAC address depending on a index
+// return the things MAC address depending on a index
 uint8_t * freekehiot_gateway_thing_mac_address(uint8_t things_index){
   if(things_index==1){
     return freekeh_thing_1_mac_address;
