@@ -167,11 +167,11 @@ void setup() {
 }
 
 void loop() {
-  // Gateway code to get the data from the things  
-  #ifdef freekeh_gateway
-  // Send message via ESP-NOW
-  freekeh_thing_adderss=freekehiot_gateway_thing_mac_address(freekeh_things_index);
 
+  // Get the data from the things from Gatewat via ESP-NOW
+  #ifdef freekeh_gateway
+  // get thing address
+  freekeh_thing_adderss=freekehiot_gateway_thing_mac_address(freekeh_things_index);
   // Go out from the while when the gateway send correctly to the thing or send twice 
   while(freekeh_gateway_send_again==1){
     esp_err_t result = esp_now_send(freekeh_thing_adderss, (uint8_t *) &Send_Data, sizeof(Send_Data));
@@ -206,25 +206,19 @@ void loop() {
     freekeh_gateway_wait_thing_data++;
     delay(100); // 100 ms
   }
-  freekeh_gateway_wait_thing_data=0;
-
+  // if receive the data
   if(freekeh_gateway_flag_received_data==1){
     freekeh_gateway_flag_received_data=0;
     Serial.print("The data received: ");
     Serial.println(freekeh_gateway_received_data);
+    freekeh_gateway_flag_received_data=0;
   }
-
-    if(flag_received_data==1){
-    flag_received_data=0;
-    Serial.print("The data received: ");
-    Serial.println(freekeh_gateway_received_data);
+  // if the time out waiting the thing to response
+  else if(freekeh_gateway_wait_thing_data<freekeh_gateway_wait_thing_data_max){
+    Serial.println("The time is out and the thing did not respone.");
   }
-
+  freekeh_gateway_wait_thing_data=0;
   #endif
-
-  //getReadings();
-  
-
 
   delay(10000);
 }
