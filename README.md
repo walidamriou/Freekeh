@@ -14,14 +14,14 @@ Freekeh powered multi sensors system by a secure wireless solution. The system c
 
 ### Freekeh release notes
 * v1.0.0
-- Support ESP32 and ESP8266 boards as a gateway.
-- Support things based ESP32 or ESP8266 boards.
-- Max things on the network are 20.
-- Protocol used on the network is ESP-NOW.
-- Written by C and C++ based Arduino framework.
-- One firmware structure for the gateway and things.
-- Data packet is limited to 250 bytes.
-- No power consumption optimization yet, not intended to battery sensors.
+   - Support ESP32 and ESP8266 boards as a gateway.
+   - Support things based ESP32 or ESP8266 boards.
+   - Max things on the network are 20.
+   - Protocol used on the network is ESP-NOW.
+   - Written by C and C++ based Arduino framework.
+   - One firmware structure for the gateway and things.
+   - Data packet is limited to 250 bytes.
+   - No power consumption optimization yet, not intended to battery sensors.
 
 ### Copyright CC 2020 Walid Amriou
 
