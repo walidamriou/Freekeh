@@ -23,7 +23,7 @@
 
 #define freekeh_serial_speed 115200
 #define freekeh_gateway_check_time 8000        // Every 8 s check (without the time of waiting the thing to response)
-#define freekeh_thing_check_time 200        // Every 8 s check (without the time of waiting the thing to response)
+#define freekeh_thing_check_time 200        // Every 0.2 s check (without the time of waiting the thing to response)
 #define freekeh_gateway_wait_thing_data_max 50 // Wait the thing to response 5 s
 
 // To know with thing will the gateway connect
